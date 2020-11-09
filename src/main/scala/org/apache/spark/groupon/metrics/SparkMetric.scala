@@ -35,7 +35,9 @@ package org.apache.spark.groupon.metrics
 import java.io.Closeable
 import java.util.concurrent.TimeUnit
 
-import com.codahale.metrics.{Clock, Reservoir, Metric}
+import com.codahale.metrics.Clock.UserTimeClock
+import com.codahale.metrics.jvm.CpuTimeClock
+import com.codahale.metrics.{Clock, Metric, Reservoir}
 import com.codahale.metrics.{ExponentiallyDecayingReservoir, SlidingTimeWindowReservoir, SlidingWindowReservoir, UniformReservoir}
 import org.apache.spark.rpc.RpcEndpointRef
 
@@ -213,8 +215,8 @@ class SparkTimer private[metrics] (
 }
 
 object ClockClass {
-  val UserTime = classOf[Clock.UserTimeClock]
-  val CpuTime = classOf[Clock.CpuTimeClock]
+  val UserTime = classOf[UserTimeClock]
+  val CpuTime = classOf[CpuTimeClock]
 }
 
 object ReservoirClass {

@@ -5,7 +5,7 @@
     <groupId>com.groupon.dse</groupId>
     <artifactId>spark-metrics</artifactId>
     <packaging>jar</packaging>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>3.0.1-SNAPSHOT</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>A library to expose more of Apache Spark's metrics system</description>
@@ -59,18 +59,18 @@
 
     <properties>
         <!-- Dependencies -->
-        <dropwizard.version>3.1.2</dropwizard.version>
-        <scala.compat.version>2.11</scala.compat.version>
-        <spark.version>2.0.1</spark.version>
+        <dropwizard.version>4.1.1</dropwizard.version>
+        <scala.compat.version>2.12</scala.compat.version>
+        <spark.version>3.0.1</spark.version>
         <jetty.version>8.1.14.v20131031</jetty.version>
-        <scalatest.version>2.2.6</scalatest.version>
+        <scalatest.version>3.0.5</scalatest.version>
 
         <!-- Plugins -->
-        <dep.plugin.scalatest-maven-plugin.version>1.0</dep.plugin.scalatest-maven-plugin.version>
+        <dep.plugin.scalatest-maven-plugin.version>2.0.0</dep.plugin.scalatest-maven-plugin.version>
         <dep.plugin.scalastyle-maven-plugin.version>0.6.0</dep.plugin.scalastyle-maven-plugin.version>
 
         <!-- Basepom Overrides -->
-        <dep.scala.version>2.11.8</dep.scala.version>
+        <dep.scala.version>2.12.10</dep.scala.version>
         <dep.plugin.scala.version>3.2.2</dep.plugin.scala.version>
         <basepom.release.push-changes>true</basepom.release.push-changes>
         <basepom.check.fail-duplicate-finder>false</basepom.check.fail-duplicate-finder>
@@ -212,20 +212,31 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-jvm</artifactId>
+            <version>${dropwizard.version}</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.spark</groupId>
-            <artifactId>spark-core_2.11</artifactId>
+            <artifactId>spark-core_2.12</artifactId>
             <version>${spark.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.spark</groupId>
-            <artifactId>spark-streaming_2.11</artifactId>
+            <artifactId>spark-streaming_2.12</artifactId>
             <version>${spark.version}</version>
             <scope>provided</scope>
-
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.zookeeper</groupId>
@@ -241,20 +252,9 @@
             <scope>provided</scope>
         </dependency>
 
-        <!--
-        We need to include this for some reason because of the way we fake the Spark package namespace.
-        Jetty version is taken from the pom file for Spark ${spark.version}
-        -->
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlet</artifactId>
-            <version>${jetty.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
         <dependency>
             <groupId>org.scalatest</groupId>
-            <artifactId>scalatest_2.11</artifactId>
+            <artifactId>scalatest_2.12</artifactId>
             <scope>test</scope>
             <version>${scalatest.version}</version>
             <exclusions>
@@ -263,6 +263,13 @@
                     <artifactId>scala-reflect</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.scalactic</groupId>
+            <artifactId>scalactic_2.12</artifactId>
+            <version>3.0.5</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
